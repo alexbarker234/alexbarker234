@@ -14,7 +14,6 @@ class Singleton {
   private constructor() {
     this.client = new MongoClient(uri, options);
     this.clientPromise = this.client.connect();
-    console.log("connected to db")
     if (process.env.NODE_ENV === 'development') {
       // In development mode, use a global variable so that the value
       // is preserved across module reloads caused by HMR (Hot Module Replacement).

@@ -14,11 +14,10 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         // Generating the component and rendering it
         const text: string = renderToString(
             clickRedirect({
-                link: "http://localhost:3000/",
+                link: "https://github.com/alexbarker234",
             })
         );
 
-        // https://github.com/alexbarker234
         await addClick()
 
         return res.send(text); // must send response last unfortunately - execution stops after

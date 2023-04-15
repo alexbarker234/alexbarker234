@@ -1,7 +1,4 @@
-// Packages
 import React from 'react';
-
-// Local Imports
 import { CONVERT_SVG_CSS } from './css';
 
 interface IConvertSVGParameters {
@@ -11,6 +8,7 @@ interface IConvertSVGParameters {
 }
 
 /**
+ * CREDIT TO: https://github.com/andyruwruw/andyruwruw
  * Most important component here. Allows us to send components as images back to Github.
  * Everything we make will be inside.
  *

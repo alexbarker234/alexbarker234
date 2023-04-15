@@ -1,26 +1,18 @@
-// Packages
 import React from "react";
-
 import ConvertSVG from "./ConvertSVG";
-
 import { GAME_CSS } from "./css";
 
-interface TestProp {
+interface GameProp {
     progress: number;
+    image: string;
 }
 
-/**
- * Displays three lists of tracks.
- *
- * @param {IConvertedTrackObject[][]} trackLists List of lists of tracks to display.
- * @returns {React.FC} Functional React component.
- */
-export const GameSVG: React.FC<TestProp> = ({ progress }: TestProp) => {
+export const GameSVG: React.FC<GameProp> = ({ progress, image }: GameProp) => {
     return (
-        <ConvertSVG width="200" height="400">
+        <ConvertSVG width="200" height="300">
             <div id="content">
                 <img
-                    src="https://cdn.discordapp.com/attachments/1068539620951855214/1096468448122515499/image.png"
+                    src={image}
                     height="80px"
                     width="80px"
                 />
@@ -38,13 +30,9 @@ export const GameSVG: React.FC<TestProp> = ({ progress }: TestProp) => {
                         </div>
                     </div>
                 </div>
-                <div id="button-container">
-                    <div id="button-text">Save the slime!</div>
-                    <a href="/click" />
-                </div>
             </div>
 
-            <style>{GAME_CSS()}</style>
+            <style>{GAME_CSS}</style>
         </ConvertSVG>
     );
 };

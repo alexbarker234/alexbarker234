@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
+/*import { VercelRequest, VercelResponse } from "@vercel/node";
 
 import clientPromise from "../src/lib/mongodb";
 
@@ -48,3 +48,4 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         }
     } catch (e) {}
 }
+*/

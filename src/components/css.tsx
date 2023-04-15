@@ -1,4 +1,4 @@
-export const GAME_CSS = () => `
+export const GAME_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
   img {
@@ -49,38 +49,6 @@ export const GAME_CSS = () => `
       background-repeat: repeat;
   }
 
-  #button-container {
-      width: 10rem;
-      height: 3rem;
-      border-radius: 10rem;
-      background-color: #3a6df0;
-      position: relative;
-      margin: auto;
-      transition: 0.2s
-  }
-
-  #button-container:hover {
-    background-color: #774bd6;
-    }
-
-  #button-container a {
-      display: block;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0%;
-      left: 0%;
-  }
-  #button-text {
-      margin: auto;    
-      width: fit-content;
-      line-height: 3rem;
-      font-family: sans-serif;
-      color:white;
-      font-weight: 800;
-      font-size: 1rem;
-  }
-
   @keyframes rise {
       0% {
           height: 0;
@@ -101,6 +69,27 @@ export const GAME_CSS = () => `
       }
   }
 `;
+
+export const BUTTON_CSS = `
+#button-container {
+    width: 160px;
+    height: 48px;
+    border-radius: 160px;
+    background-color: #3a6df0;
+    position: relative;
+    margin: auto;
+    transition: 0.2s
+}
+
+#button-text {
+    margin: auto;    
+    width: fit-content;
+    line-height: 48px;
+    font-family: sans-serif;
+    color:white;
+    font-weight: 800;
+}
+`
 
 export const CONVERT_SVG_CSS = `
     * {
