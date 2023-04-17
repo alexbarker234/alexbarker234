@@ -1,12 +1,22 @@
 import clientPromise from "../lib/mongodb";
 import "../extensions/date.extensions";
 import Game from "../models/game";
-import { Collection } from "mongodb";
+import Stats from "../models/stats";
+import { Collection, Filter, Document } from "mongodb";
 
 export const loadGameCollection = async () => {
     try {
         const client = await clientPromise;
-        return client.db("gitHubDB").collection<Game>("clicker");
+        return client.db("githubGame").collection<Game>("games");
+    } catch (err) {
+        return null;
+    }
+};
+
+export const loadStatsCollection = async () => {
+    try {
+        const client = await clientPromise;
+        return client.db("githubGame").collection<Stats>("stats");
     } catch (err) {
         return null;
     }
@@ -14,33 +24,42 @@ export const loadGameCollection = async () => {
 
 export const getCurrentGame = async () => {
     const collection = await loadGameCollection();
+    const collectionExt = new CollectionExtended(collection);
     const dateID = getDateID(new Date());
 
-    const query = { dateID: dateID };
-    const options = { upsert: true, returnNewDocument:true };
-    const update =  { $setOnInsert: { dateID: dateID, clicks: 0 } }
-    let result = await collection.findOneAndUpdate(query, update, options);
+    return await collectionExt.findOneOrUpsert(
+        { dateID: dateID },
+        { dateID: dateID, clicks: 0 }
+    );
+};
 
-    // try find a way to just get the upserted object
-    if (!result.lastErrorObject.updatedExisting)
-        result = await collection.findOneAndUpdate(query, update, options);
+export const getStats = async () => {
+    const collection = await loadStatsCollection();
+    const collectionExt = new CollectionExtended(collection);
 
-    return result.value
+    return await collectionExt.findOneOrUpsert({}, { totalClicks: 0 });
 };
 
 export const addClick = async () => {
-    const collection = await loadGameCollection();
+    const games = await loadGameCollection();
+    const stats = await loadStatsCollection();
     const dateID = getDateID(new Date());
 
-    const query = { dateID: dateID };
-    const options = { upsert: true };
-    const update = {
-        $inc: {
-            clicks: 1,
+    await games.updateOne(
+        { dateID: dateID },
+        {
+            $inc: { clicks: 1 },
         },
-    };
+        { upsert: true }
+    );
 
-    await collection.updateOne(query, update, options);
+    await stats.updateOne(
+        { },
+        {
+            $inc: { totalClicks: 1 },
+        },
+        { upsert: true }
+    );
 };
 
 let getDateID = (date: Date): string =>
@@ -61,3 +80,51 @@ class TimeSpan {
 
     getDays = () => Math.floor(this.ms / 86400000);
 }
+
+class CollectionExtended<Document> {
+    collection: Collection<Document>;
+
+    constructor(collection: Collection<Document>) {
+        this.collection = collection;
+    }
+    findOneOrUpsert = async function (
+        filter: Filter<Document>,
+        setOnUpsert: object
+    ) {
+        const options = { upsert: true, returnNewDocument: true };
+        const update = { $setOnInsert: setOnUpsert };
+        let result = await this.collection.findOneAndUpdate(
+            filter,
+            update,
+            options
+        );
+
+        // try find a way to just get the upserted object
+        if (!result.lastErrorObject.updatedExisting)
+            result = await this.collection.findOneAndUpdate(
+                filter,
+                update,
+                options
+            );
+
+        return result.value;
+    };
+}
+
+// gotta learn how to cast better
+/*class CollectionExtended<Document> extends Collection<Document> {
+    findOneOrUpsert = async function (
+        filter: Filter<Document>,
+        setOnUpsert: object
+    ) {
+        const options = { upsert: true, returnNewDocument: true };
+        const update = { $setOnInsert: setOnUpsert };
+        let result = await this.findOneAndUpdate(filter, update, options);
+
+        // try find a way to just get the upserted object
+        if (!result.lastErrorObject.updatedExisting)
+            result = await this.findOneAndUpdate(filter, update, options);
+
+        return result.value;
+    };
+}*/

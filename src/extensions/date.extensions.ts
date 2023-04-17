@@ -1,12 +1,12 @@
-export {} // makes this act as a module
+export {}; // makes this act as a module
 
 declare global {
     interface Date {
-       getWeek(): number;
+        getWeek(): number;
     }
- }
+}
 
-Date.prototype.getWeek = function(): number {
+Date.prototype.getWeek = function (): number {
     var startOfYear = new Date(this.getFullYear(), 0, 1);
     return Math.ceil(
         ((this.getTime() - startOfYear.getTime()) / 86400000 +
@@ -14,4 +14,4 @@ Date.prototype.getWeek = function(): number {
             1) /
             7
     );
-}
+};
