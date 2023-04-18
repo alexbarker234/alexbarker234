@@ -7,7 +7,7 @@ export const ButtonSVG: React.FC = () => {
         <ConvertSVG width="160" height="48">
             <div id="content">
                 <div id="button-container">
-                    <div id="button-text">Save the slime!</div>
+                    <div id="button-text">Save the bird!</div>
                 </div>
             </div>
 

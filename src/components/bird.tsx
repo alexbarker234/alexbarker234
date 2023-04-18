@@ -2,11 +2,12 @@ import React from "react";
 import ConvertSVG from "./ConvertSVG";
 import { GAME_CSS } from "./css";
 
-interface BirdProp {
-    color: string;
+export interface BirdProp {
+    bodyColor: string;
+    wingColor: string;
 }
 
-export const BirdSVG: React.FC<BirdProp> = ({ color }: BirdProp) => {
+export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor }: BirdProp) => {
 
     const colorLegBack = "#fd7007"
     const colorLegFront = "#fd9802"
@@ -20,7 +21,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ color }: BirdProp) => {
     const torsoWidth = 60;
     const torsoHeight = 50;
     const birdTorsoStyle: React.CSSProperties = {
-        backgroundColor: color,
+        backgroundColor: bodyColor,
         width: `${torsoWidth}px`,
         height: `${torsoHeight}px`,
         borderRadius: "50px",
@@ -70,7 +71,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ color }: BirdProp) => {
 
     const headWidth = 30;
     const headStyle: React.CSSProperties = {
-        backgroundColor: color,
+        backgroundColor: "inherit",
         width: `${headWidth}px`,
         height: "60px",
         borderRadius: `${headWidth}px`,
@@ -104,7 +105,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ color }: BirdProp) => {
         transform: "translate(-50%, -50%)"
     }
     const wingStyle: React.CSSProperties = {
-        backgroundColor: colorLegFront,
+        backgroundColor: wingColor,
         width: "36px",
         height: "20px",
         borderRadius: "20px 30px 10px 20px",

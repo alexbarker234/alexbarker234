@@ -4,7 +4,7 @@ import { GameSVG } from "../components/game";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getCurrentGame } from "../helpers/dbHelper";
 import { getImageData } from "../helpers/image";
-import { BirdSVG } from "../components/bird";
+import { BirdProp } from "../components/bird";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
@@ -13,25 +13,20 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
         //console.log(`${game.clicks} / 20 clciks`);
 
-        // will be updated
-        const image = await getImageData("https://cdn.discordapp.com/attachments/1068539620951855214/1096468448122515499/image.png")
+        const birdData: BirdProp = {
+            bodyColor: "#009ee9",
+            wingColor: "#fd9802"
+        }
 
         const text: string = renderToString(
             GameSVG({
                 progress: progress,
-                image: image
+                birdProp: birdData
             })
         );
+        res.setHeader("Content-Type", "image/svg+xml");
 
-        const text2: string = renderToString(
-            BirdSVG({
-                color: "#009ee9"
-            })
-        );
-
-        //res.setHeader("Content-Type", "image/svg+xml");
-
-        return res.send(text2);
+        return res.send(text);
     } catch (error) {
         console.log(error);
         return res.status(500).send(ERROR_MESSAGE_500);
