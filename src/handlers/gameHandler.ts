@@ -4,6 +4,7 @@ import { GameSVG } from "../components/game";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getCurrentGame } from "../helpers/dbHelper";
 import { getImageData } from "../helpers/image";
+import { BirdSVG } from "../components/bird";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
@@ -22,9 +23,15 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             })
         );
 
-        res.setHeader("Content-Type", "image/svg+xml");
+        const text2: string = renderToString(
+            BirdSVG({
+                color: "#009ee9"
+            })
+        );
 
-        return res.send(text);
+        //res.setHeader("Content-Type", "image/svg+xml");
+
+        return res.send(text2);
     } catch (error) {
         console.log(error);
         return res.status(500).send(ERROR_MESSAGE_500);
