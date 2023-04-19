@@ -12,16 +12,20 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         const progress = Math.min((game.clicks / 20) * 100, 100);
 
         //console.log(`${game.clicks} / 20 clciks`);
+        let hasWon = false;
+        if (progress >= 100) hasWon = true;
 
         const birdData: BirdProp = {
             bodyColor: "#009ee9",
-            wingColor: "#fd9802"
+            wingColor: "#fd9802",
+            isFree: hasWon
         }
 
         const text: string = renderToString(
             GameSVG({
                 progress: progress,
-                birdProp: birdData
+                birdProp: birdData,
+                victory: hasWon
             })
         );
         res.setHeader("Content-Type", "image/svg+xml");
