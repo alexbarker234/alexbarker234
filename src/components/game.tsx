@@ -6,23 +6,40 @@ import { BirdSVG, BirdProp } from "./bird";
 interface GameProp {
     progress: number;
     birdProp: BirdProp;
+    victory: boolean;
 }
 
-export const GameSVG: React.FC<GameProp> = ({ progress, birdProp }: GameProp) => {
+export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory }: GameProp) => {
+
+    const chainStyle: React.CSSProperties = {
+        backgroundColor: 'rgb(118, 113, 113)',
+        width: "5px",
+        height: "150px",
+    
+        borderRadius:"5px",
+    
+        position: "absolute",
+        top: "105%",
+        left: "10%",
+    
+        animation: `${victory ? "swing-small" : "swing"} 5s infinite ease-in-out`,
+        transformOrigin: "top",
+    }
+
     return (
-        <ConvertSVG width="250" height="300">
+        <ConvertSVG width="300" height="300">
             <div className="container">
                 <div className="fire">
                     <div className="flames">
-                        <div className="white" style={{ left: "30%", width: "10%", height:"40%", zIndex:5 }} />
-                        <div className="white" style={{ left: "60%", width: "20%", height:"60%", zIndex:5 }} />
-                        <div className="yellow" style={{ left: "50%", width: "15%", height:"80%", zIndex:3 }} />
-                        <div className="yellow" style={{ left: "40%", width: "10%", height:"60%", zIndex:3 }} />
-                        <div className="orange" style={{ left: "30%", width: "20%", height:"70%", zIndex:3 }} />
-                        <div className="orange" style={{ left: "60%", width: "20%", height:"60%", zIndex:1 }} />
-                        <div className="red" style={{ left: "60%", width: "20%", height:"80%", zIndex:1 }} />
-                        <div className="red" style={{ left: "20%", width: "15%", height:"50%", zIndex:4 }} />
-                        <div className="red" style={{ left: "45%", width: "8%", height:"70%", zIndex:4 }} />
+                        <div className="white" style={{ left: "30%", width: "10%", height: "40%", zIndex: 5 }} />
+                        <div className="white" style={{ left: "60%", width: "20%", height: "60%", zIndex: 5 }} />
+                        <div className="yellow" style={{ left: "50%", width: "15%", height: "80%", zIndex: 3 }} />
+                        <div className="yellow" style={{ left: "40%", width: "10%", height: "60%", zIndex: 3 }} />
+                        <div className="orange" style={{ left: "30%", width: "20%", height: "70%", zIndex: 3 }} />
+                        <div className="orange" style={{ left: "60%", width: "20%", height: "60%", zIndex: 1 }} />
+                        <div className="red" style={{ left: "60%", width: "20%", height: "80%", zIndex: 1 }} />
+                        <div className="red" style={{ left: "20%", width: "15%", height: "50%", zIndex: 4 }} />
+                        <div className="red" style={{ left: "45%", width: "8%", height: "70%", zIndex: 4 }} />
                     </div>
 
                     <div className="glow-container">
@@ -31,16 +48,16 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp }: GameProp) =>
                         <div className="glow" id="glow-3"></div>
                     </div>
 
-                    <div className="log" style={{ left: "0%", width: "100%", height:"10%", zIndex:10, transform: "rotate(-10deg)" }}></div>
-                    <div className="log" style={{ left: "0%", width: "100%", height:"10%", zIndex:10, transform: "rotate(8deg)" }}></div>
+                    <div className="log" style={{ left: "0%", width: "100%", height: "10%", zIndex: 10, transform: "rotate(-10deg)" }}></div>
+                    <div className="log" style={{ left: "0%", width: "100%", height: "10%", zIndex: 10, transform: "rotate(8deg)" }}></div>
 
                 </div>
-
+                {victory ? <BirdSVG {...birdProp} /> : null}
                 <div className="hanger">
                     <div className="post" id="post-1">
-                        <div className="post"id="post-2">
-                            <div className="chain">
-                                <BirdSVG {...birdProp}/>
+                        <div className="post" id="post-2">
+                            <div className="chain" style={chainStyle}>
+                                {victory ? null : <BirdSVG {...birdProp} />}
                             </div>
                         </div>
                     </div>
@@ -65,8 +82,8 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp }: GameProp) =>
     );
 };
 
-const GAME_CSS = 
-`
+const GAME_CSS =
+    `
 :root {
     --fire-white: #ffffff;
     --fire-yellow: #ffef52;
@@ -83,7 +100,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: 300px;
     height:300px;
     overflow:hidden;
 }
@@ -117,7 +134,8 @@ body {
     overflow: hidden;
 
     bottom:0%;
-    left:20%;
+    left:50%;
+    transform: translate(-50%, 0%)
 }
 
 .fire * {
@@ -227,7 +245,7 @@ body {
     width: 20px;
     height: 305px;
 
-    right: 0%;
+    right: 50px;
     bottom: 0%;
 }
 #post-2 {
@@ -236,25 +254,16 @@ body {
 
     right:100%;   
 }
-.chain {
-    background-color: rgb(118, 113, 113);
-    width: 5px;
-    height: 150px;
 
-    border-radius:5px;
-
-    position: absolute;
-    top: 105%;
-    left: 10%;
-
-    animation: swing 5s infinite ease-in-out;
-    transform-origin: top;
-}
-
-.bird {
+#locked-bird {
     position: absolute;
     top:100%;
     transform: translate(-50%,-50%) scale(0.8);
+}
+#free-bird {
+    position: absolute;
+    bottom: 0%;
+    left: calc(0% - 0px);
 }
 
 /* animations */
@@ -268,6 +277,18 @@ body {
     }
     100% {
         transform: rotate(10deg)
+    }
+}
+
+@keyframes swing-small {
+    0% {
+        transform: rotate(4deg)
+    }
+    50% {
+        transform: rotate(-4deg)
+    }
+    100% {
+        transform: rotate(4deg)
     }
 }
 
@@ -345,11 +366,11 @@ body {
 
 #bar-shine {
     width: 40%;
-    height: 80%;
+    height: calc(100% - 20px);
     border-radius: 2rem;
 
     position: absolute;
-    top: 10%;
+    top: 10px;
     left: 14%;
 
     background-color: #ffffff;
