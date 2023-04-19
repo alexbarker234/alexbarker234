@@ -9,7 +9,7 @@ import { BirdProp } from "../components/bird";
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
         const game = await getCurrentGame();
-        const progress = (game.clicks / 20) * 100;
+        const progress = Math.min((game.clicks / 20) * 100, 100);
 
         //console.log(`${game.clicks} / 20 clciks`);
 
