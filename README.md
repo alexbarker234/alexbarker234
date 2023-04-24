@@ -16,3 +16,7 @@ WIP:
 <p align="center">
   <p style="text-align: center;">Inspired by <a href="https://github.com/andyruwruw">andyruwruw</a> & <a href="https://github.com/HFO4">HFO4</a></p>
 </p>
+
+<p align="center">
+     <img height="300" src="https://github-readme-stats.vercel.app/api/top-langs/?username=alexbarker234&theme=transparent">
+</p>
