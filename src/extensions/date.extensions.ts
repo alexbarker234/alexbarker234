@@ -7,7 +7,7 @@ declare global {
 }
 
 Date.prototype.getWeek = function (): number {
-    var startOfYear = new Date(this.getFullYear(), 0, 1);
+    const startOfYear = new Date(this.getFullYear(), 0, 1);
     return Math.ceil(
         ((this.getTime() - startOfYear.getTime()) / 86400000 +
             startOfYear.getDay() +

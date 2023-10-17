@@ -3,12 +3,19 @@ import ConvertSVG from "./ConvertSVG";
 import { GAME_CSS } from "./css";
 
 export interface BirdProp {
+    isFree: boolean;
+
     bodyColor: string;
     wingColor: string;
-    isFree: boolean;
+
+    headWidth: number;
+    headHeight: number;
+
+    legWidth: number;
+    legHeight: number;
 }
 
-export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: BirdProp) => {
+export const BirdSVG: React.FC<BirdProp> = (bird: BirdProp) => {
 
     const colorLegBack = "#fd7007"
     const colorLegFront = "#fd9802"
@@ -16,22 +23,16 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
     const torsoWidth = 60;
     const torsoHeight = 50;
 
-    const headWidth = 30;
-    const headHeight = 24;
-
-    const legWidth = 5;
-    const legHeight = 30;
-
     const birdStyle: React.CSSProperties = {
         width: "100px",
-        height: `${torsoHeight + headHeight + legHeight}px`,
+        height: `${torsoHeight + bird.headHeight + bird.legHeight}px`,
         position: "absolute",
         transformStyle: "preserve-3d",
     };
-    if (isFree) birdStyle.transform = "rotateY(180deg)"; // stops overriding the css with this inline css
+    if (bird.isFree) birdStyle.transform = "rotateY(180deg)"; // stops overriding the css with this inline css
 
     const birdTorsoStyle: React.CSSProperties = {
-        backgroundColor: bodyColor,
+        backgroundColor: bird.bodyColor,
         width: `${torsoWidth}px`,
         height: `${torsoHeight}px`,
         borderRadius: "50px",
@@ -41,9 +42,9 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
     }
 
     const legStyle: React.CSSProperties = {
-        width: `${legWidth}px`,
-        height: `${legHeight + 6}px`,
-        borderRadius: `${legWidth}px`,
+        width: `${bird.legWidth}px`,
+        height: `${bird.legHeight + 6}px`,
+        borderRadius: `${bird.legWidth}px`,
         transformOrigin: "top",
 
         position: "absolute",
@@ -56,16 +57,15 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
     const legStyle1: React.CSSProperties = {
         backgroundColor: colorLegFront,
         left: "50%",
-        animationName: isFree ? "none" : "leg-wiggle-1",
+        animationName: bird.isFree ? "none" : "leg-wiggle-1",
     }
     const legStyle2: React.CSSProperties = {
         backgroundColor: colorLegBack,
         left: "40%",
         zIndex: -1,
-        animationName: isFree ? "none" : "leg-wiggle-2",
+        animationName: bird.isFree ? "none" : "leg-wiggle-2",
     }
 
-    const footWidth = 5;
     const footStyle: React.CSSProperties = {
         backgroundColor: "inherit",
         position: "absolute",
@@ -73,17 +73,17 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
         bottom: "0%",
         right: "0%",
 
-        width: "10px",
-        height: `${footWidth}px`,
-        borderRadius: `${footWidth}px`,
+        width: `${bird.legWidth + 5}px`,
+        height: `${bird.legWidth}px`,
+        borderRadius: `${bird.legWidth}px`,
     }
 
 
     const headStyle: React.CSSProperties = {
         backgroundColor: "inherit",
-        width: `${headWidth}px`,
-        height: `${headHeight + 36}px`,
-        borderRadius: `${headWidth}px`,
+        width: `${bird.headWidth}px`,
+        height: `${bird.headHeight + 36}px`,
+        borderRadius: `${bird.headWidth}px`,
 
         position: "absolute",
         bottom: "100%",
@@ -94,7 +94,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
         backgroundColor: "white",
         width: "10px",
         height: "10px",
-        borderRadius: isFree ? "10px 10px 4px 4px" : "5px 10px 5px 5px",
+        borderRadius: bird.isFree ? "10px 10px 4px 4px" : "5px 10px 5px 5px",
 
         position: "absolute",
         left: "50%",
@@ -114,7 +114,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
         transform: "translate(-50%, -50%)"
     }
     const wingStyle: React.CSSProperties = {
-        backgroundColor: wingColor,
+        backgroundColor: bird.wingColor,
         width: "36px",
         height: "20px",
         borderRadius: "20px 30px 10px 20px",
@@ -124,7 +124,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
         top: "20%",
 
         transformOrigin: "20% 50%",
-        animation: isFree ? "wing-roast 5s infinite ease-in-out" : "wing-wiggle 1s infinite ease-in-out"
+        animation: bird.isFree ? "wing-roast 5s infinite ease-in-out" : "wing-wiggle 1s infinite ease-in-out"
     }
 
     const marshmallowStyle: React.CSSProperties = {
@@ -150,7 +150,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
     }
 
     return (
-        <div className="bird" style={birdStyle} id={isFree ? "free-bird" : "locked-bird"}>
+        <div className="bird" style={birdStyle} id={bird.isFree ? "free-bird" : "locked-bird"}>
             <div className="torso" style={birdTorsoStyle}>
                 <div className="head" style={headStyle}>
                     <div className="beak" style={beakStyle} />
@@ -164,7 +164,7 @@ export const BirdSVG: React.FC<BirdProp> = ({ bodyColor, wingColor, isFree }: Bi
                 </div>
                 <div className="wing" style={wingStyle}>
                     {
-                        isFree ?
+                        bird.isFree ?
                             (
                                 <div className="marshmallow-stick" style={stickStyle}>
                                     <div className="marshmallow" style={marshmallowStyle} />
