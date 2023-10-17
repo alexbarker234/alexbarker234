@@ -1,33 +1,32 @@
 import React from "react";
 import ConvertSVG from "./ConvertSVG";
-import { BirdSVG, BirdProp } from "./bird";
-
+import { BirdSVG, BirdProps } from "./bird";
 
 interface GameProp {
     progress: number;
-    birdProp: BirdProp;
+    birdProp: BirdProps;
     victory: boolean;
+    isSVG?: boolean;
 }
 
-export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory }: GameProp) => {
-
+export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory, isSVG }: GameProp) => {
     const chainStyle: React.CSSProperties = {
-        backgroundColor: 'rgb(118, 113, 113)',
+        backgroundColor: "rgb(118, 113, 113)",
         width: "5px",
         height: "150px",
-    
-        borderRadius:"5px",
-    
+
+        borderRadius: "5px",
+
         position: "absolute",
         top: "105%",
         left: "10%",
-    
+
         animation: `${victory ? "swing-small" : "swing"} 5s infinite ease-in-out`,
         transformOrigin: "top",
-    }
+    };
 
-    return (
-        <ConvertSVG width="300" height="300">
+    const jsx = (
+        <>
             <div className="container">
                 <div className="fire">
                     <div className="flames">
@@ -50,7 +49,6 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory }: Gam
 
                     <div className="log" style={{ left: "0%", width: "100%", height: "10%", zIndex: 10, transform: "rotate(-10deg)" }}></div>
                     <div className="log" style={{ left: "0%", width: "100%", height: "10%", zIndex: 10, transform: "rotate(8deg)" }}></div>
-
                 </div>
                 {victory ? <BirdSVG {...birdProp} /> : null}
                 <div className="hanger">
@@ -78,12 +76,13 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory }: Gam
                 </div>
             </div>
             <style>{GAME_CSS}</style>
-        </ConvertSVG>
-    );
+        </>
+    );        
+
+    return  (isSVG || isSVG == undefined) ? <ConvertSVG width="300" height="300">{jsx}</ConvertSVG> : jsx;
 };
 
-const GAME_CSS =
-    `
+const GAME_CSS = `
 :root {
     --fire-white: #ffffff;
     --fire-yellow: #ffef52;
@@ -388,4 +387,4 @@ body {
     }
 }
 
-`
+`;

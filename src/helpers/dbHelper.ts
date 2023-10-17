@@ -3,6 +3,7 @@ import "../extensions/date.extensions";
 import Game from "../models/game";
 import Stats from "../models/stats";
 import { Collection, Filter, Document } from "mongodb";
+import { getDateID } from "../lib/utilities";
 
 export const loadGameCollection = async () => {
     try {
@@ -62,8 +63,6 @@ export const addClick = async () => {
     );
 };
 
-let getDateID = (date: Date): string =>
-    `Y${date.getFullYear()}-W${date.getWeek()}`;
 
 class TimeSpan {
     ms: number;

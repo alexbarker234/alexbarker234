@@ -3,15 +3,18 @@ import { renderToString } from "react-dom/server";
 import { GameSVG } from "../components/game";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getCurrentGame } from "../helpers/dbHelper";
-import { BirdProp } from "../components/bird";
+import { BirdProps } from "../components/bird";
 import React from "react";
+import { getDateID } from "../lib/utilities";
+
+import seedrandom, {PRNG} from "seedrandom";
 
 class Bird {
     bodyColor: string;
     wingColor: string;
     constructor(bodyColor: string, wingColor: string) {
         this.bodyColor = bodyColor;
-        this.wingColor = wingColor
+        this.wingColor = wingColor;
     }
 }
 
@@ -25,34 +28,45 @@ const birds: Bird[] = [
     new Bird("#c72ad7", "#6e2dd6"), // pink and purple
     new Bird("#fcc531", "#7e50c3"), // yellow and purple
 ];
+let rand: PRNG;
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
-        const game = await getCurrentGame();
+        const debug = req.query.debug;
+        const game = debug ? { clicks: 2, dateID: getDateID(new Date()) } : await getCurrentGame();
+
         const progress = Math.min((game.clicks / 20) * 100, 100);
+        rand = seedrandom(game.dateID);
 
         //console.log(`${game.clicks} / 20 clciks`);
         let hasWon = false;
         if (progress >= 100) hasWon = true;
 
-        const bird = birds[Math.floor(Math.random() * birds.length)]
+        const bird = birds[Math.floor(rand() * birds.length)];
 
-        const birdData: BirdProp = {
+        const birdData: BirdProps = {
             isFree: hasWon,
 
             bodyColor: bird.bodyColor,
             wingColor: bird.wingColor,
 
-            headWidth: randBetween(20,40),
-            headHeight: randBetween(4,40),
+            headWidth: randBetween(20, 40),
+            headHeight: randBetween(4, 40),
 
-            legWidth: randBetween(5,10),
-            legHeight: randBetween(10,40),
+            legWidth: randBetween(5, 10),
+            legHeight: randBetween(10, 40),
+
+            headPlumage: {
+                style: randBetween(1, 2),
+                color: bird.bodyColor,
+                spread: 20,
+                flipped: randBool(),
+            },
         };
 
-        const text = renderToString(<GameSVG progress={progress} birdProp={birdData} victory={hasWon} />);
+        const text = renderToString(<GameSVG progress={progress} birdProp={birdData} victory={hasWon} isSVG={!debug} />);
 
-        res.setHeader("Content-Type", "image/svg+xml");
+        if (!debug) res.setHeader("Content-Type", "image/svg+xml");
         return res.send(text);
     } catch (error) {
         console.log(error);
@@ -60,4 +74,5 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-const randBetween = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);
+const randBetween = (min: number, max: number) => Math.floor(rand() * (max - min + 1) + min);
+const randBool = () => rand() > 0.5;
