@@ -26,7 +26,7 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory, isSVG
     };
 
     const jsx = (
-        <>
+        <div className="game-div">
             <div className="container">
                 <div className="fire">
                     <div className="flames">
@@ -76,7 +76,7 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory, isSVG
                 </div>
             </div>
             <style>{GAME_CSS}</style>
-        </>
+        </div>
     );        
 
     return  (isSVG || isSVG == undefined) ? <ConvertSVG width="300" height="300">{jsx}</ConvertSVG> : jsx;
@@ -92,6 +92,10 @@ const GAME_CSS = `
 
 body {
     background-color: rgb(24, 24, 34);
+}
+
+.game-div {
+    animation: fade-in 1s forwards ease-out
 }
 
 .container {
@@ -266,6 +270,15 @@ body {
 }
 
 /* animations */
+
+@keyframes fade-in {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
 
 @keyframes swing {
     0% {

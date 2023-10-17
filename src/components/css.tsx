@@ -78,7 +78,8 @@ export const BUTTON_CSS = `
     background-color: #3a6df0;
     position: relative;
     margin: auto;
-    transition: 0.2s
+    transition: 0.2s;
+    animation: fade-in 1s forwards ease-out
 }
 
 #button-text {
@@ -88,6 +89,15 @@ export const BUTTON_CSS = `
     font-family: sans-serif;
     color:white;
     font-weight: 800;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
 }
 `
 
