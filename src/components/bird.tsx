@@ -11,6 +11,9 @@ export interface BirdProps {
     legWidth: number;
     legHeight: number;
 
+    torsoWidth: number;
+    torsoHeight: number;
+
     headPlumage: HeadPlumageProps;
 }
 
@@ -25,6 +28,7 @@ interface HeadPlumageProps {
     spread: number;
     height: number;
     flipped: boolean;
+    headHeight?: number; // probably move this elsewhere
 }
 
 const HeadPlumage: React.FC<HeadPlumageProps> = (props) => {
@@ -63,12 +67,12 @@ const HeadPlumage: React.FC<HeadPlumageProps> = (props) => {
         }
         // tall head
         case 2: {
-            const height = props.height + 20
+            const height = props.height + props.headHeight * 0.5
 
             const plumageStyle: React.CSSProperties = {
                 zIndex: -1,
                 position: "absolute",
-                bottom: "-20px",
+                bottom: `-${props.headHeight * 0.5}px`,
                 width: "100%",
                 height: `${height}px`,
                 backgroundColor: props.color,
@@ -85,16 +89,39 @@ const HeadPlumage: React.FC<HeadPlumageProps> = (props) => {
     return <div style={{ transform: props.flipped ? "scaleX(-1)" : "", position: "relative" }}>{plumage}</div>;
 };
 
+const Sweat: React.FC = () => {
+    const animationDuration = 2;
+
+    const sweatStyle: React.CSSProperties = {
+        backgroundColor: "#87d1e6",
+        position: "absolute",
+        margin: "0 auto",
+        width: "10px",
+        height: "10px",
+        borderRadius: "0% 100% 100% 100%",
+        rotate: "45deg",
+        animation: `sweat ${animationDuration}s infinite ease-in`
+    };
+    const numSweats = 5;
+
+    return (
+        <div className="sweat" style={{position: "absolute", left: '50%', top: "50%", zIndex: -2}}>
+            {Array.from({ length: numSweats }, (_, index) => (
+                <div key={index} style={{position:"absolute", rotate: `${(360 / numSweats) * index}deg`}}> 
+                    <div style={{...sweatStyle, animationDelay: `-${(index /numSweats) * animationDuration}s`}} />
+                </div>
+            ))}
+        </div>
+    );
+}
+
 export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
     const colorLegBack = "#fd7007";
     const colorLegFront = "#fd9802";
 
-    const torsoWidth = 60;
-    const torsoHeight = 50;
-
     const birdStyle: React.CSSProperties = {
         width: "100px",
-        height: `${torsoHeight + bird.headHeight + bird.legHeight}px`,
+        height: `${bird.torsoHeight + bird.headHeight + bird.legHeight}px`,
         position: "absolute",
         transformStyle: "preserve-3d",
     };
@@ -102,12 +129,13 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
 
     const birdTorsoStyle: React.CSSProperties = {
         backgroundColor: bird.bodyColor,
-        width: `${torsoWidth}px`,
-        height: `${torsoHeight}px`,
+        width: `${bird.torsoWidth}px`,
+        height: `${bird.torsoHeight}px`,
         borderRadius: "50px",
         position: "absolute",
-        top: `calc(50% - ${torsoWidth / 2}px)`,
-        left: `calc(50% - ${torsoHeight / 2}px)`,
+        top: `50%`,
+        left: `50%`,
+        transform: "translate(-50%,-75%)"
     };
 
     const legStyle: React.CSSProperties = {
@@ -150,12 +178,13 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
     const headStyle: React.CSSProperties = {
         backgroundColor: bird.bodyColor,
         width: `${bird.headWidth}px`,
-        height: `${bird.headHeight + 36}px`,
+        height: `${bird.headHeight}px`,
         borderRadius: `${bird.headWidth}px`,
 
         position: "absolute",
-        bottom: "100%",
-        transform: "translate(0%, 36px)",
+        bottom: `${bird.torsoHeight - bird.headWidth * 0.75}px`,
+        transformOrigin: "bottom center",
+        animation: "head-rotate 0.7s infinite ease-in-out"
     };
 
     const eyeStyle: React.CSSProperties = {
@@ -221,7 +250,8 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
         <div className="bird" style={birdStyle} id={bird.isFree ? "free-bird" : "locked-bird"}>
             <div className="torso" style={birdTorsoStyle}>
                 <div className="head" style={headStyle}>
-                    <HeadPlumage {...bird.headPlumage} />
+                    <Sweat/>
+                    <HeadPlumage {...bird.headPlumage} headHeight={bird.headHeight} />
                     <div className="head-fill" style={{ width: "100%", height: "100%", borderRadius: "inherit", backgroundColor: "inherit" }}></div>
                     <div className="beak" style={beakStyle} />
                     <div className="eye" style={eyeStyle} />
@@ -284,6 +314,19 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
                             transform: rotate(20deg);
                         }
                     }
+                    @keyframes head-rotate {
+                        0% {
+                            transform: rotate(10deg);
+                        }
+                
+                        50% {
+                            transform: rotate(-10deg);
+                        }
+                
+                        100% {
+                            transform: rotate(10deg);
+                        }
+                    }
 
                     @keyframes wing-roast {
                         0% {
@@ -296,6 +339,53 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
                 
                         100% {
                             transform: rotate(190deg);
+                        }
+                    }
+
+                    @keyframes sweat {
+                        /*cycle 1*/
+                        0% {
+                            translate: 0px 0px;
+                            scale: 1;
+                            rotate: 0deg;
+                        }
+                        25% {
+                            translate: 100px 100px;
+                            scale: 0;
+                            rotate: 0deg;
+                        }
+                        /*cycle 2*/
+                        26% {
+                            translate: 0px 0px;
+                            scale: 1;
+                            rotate: 270deg;
+                        }
+                        50% {
+                            translate: 100px -100px;
+                            scale: 0;
+                            rotate: 270deg;
+                        }
+                        /*cycle 3*/
+                        51% {
+                            translate: 0px 0px;
+                            scale: 1;
+                            rotate: 90deg;
+                        }
+                        75% {
+                            translate: -100px 100px;
+                            scale: 0;
+                            rotate: 90deg;
+                        }
+                        /*cycle 4*/
+                        76% {
+                            translate: 0px 0px;
+                            scale: 1;
+                            rotate: 135deg;
+                        }
+                        100% {
+                            translate: -100px 0px;
+                            scale: 0;
+                            rotate: 135deg;
                         }
                     }
                     `}
