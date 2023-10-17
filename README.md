@@ -5,7 +5,6 @@
     <img height="32" src="https://alexbarker234.vercel.app/get-badge?badge=totalClicks">
 </p>
 
-WIP:
 <p align="center">
     <img height="300" src="https://alexbarker234.vercel.app/get-game"><br>
     <a href="https://alexbarker234.vercel.app/click">
