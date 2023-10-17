@@ -33,7 +33,7 @@ let rand: PRNG;
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
         const debug = req.query.debug;
-        const game = debug ? { clicks: 2, dateID: getDateID(new Date()) } : await getCurrentGame();
+        const game = debug ? { clicks: 2, dateID: Math.random() } : await getCurrentGame();
 
         const progress = Math.min((game.clicks / 20) * 100, 100);
         rand = seedrandom(game.dateID);
@@ -61,6 +61,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
                 color: bird.bodyColor,
                 spread: 20,
                 flipped: randBool(),
+                height: randBetween(5, 20)
             },
         };
 

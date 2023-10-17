@@ -14,17 +14,23 @@ export interface BirdProps {
     headPlumage: HeadPlumageProps;
 }
 
+/** Some of these properties are only applicable to certain plumages EG
+ * height: 2
+ * spread: 1
+ * 
+*/ 
 interface HeadPlumageProps {
     style: number;
     color: string;
     spread: number;
+    height: number;
     flipped: boolean;
 }
 
-const HeadPlumage: React.FC<HeadPlumageProps> = ({ style, color, spread, flipped }) => {
+const HeadPlumage: React.FC<HeadPlumageProps> = (props) => {
     let plumage;
 
-    switch (style) {
+    switch (props.style) {
         // feathers
         case 1: {
             const containerStyle: React.CSSProperties = {
@@ -41,7 +47,7 @@ const HeadPlumage: React.FC<HeadPlumageProps> = ({ style, color, spread, flipped
                 top: "50%",
                 position: "absolute",
                 height: "8px",
-                backgroundColor: color,
+                backgroundColor: props.color,
                 borderRadius: "70% 100% 100% 100%",
                 transformOrigin: "center left",
             };
@@ -49,15 +55,15 @@ const HeadPlumage: React.FC<HeadPlumageProps> = ({ style, color, spread, flipped
             plumage = (
                 <div style={containerStyle}>
                     <div style={Object.assign({}, plumageStyle, { width: "100%" })} />
-                    <div style={Object.assign({}, plumageStyle, { rotate: `-${spread}deg`, width: "70%" })} />
-                    <div style={Object.assign({}, plumageStyle, { rotate: `-${spread * 2}deg`, width: "40%" })} />
+                    <div style={Object.assign({}, plumageStyle, { rotate: `-${props.spread}deg`, width: "70%" })} />
+                    <div style={Object.assign({}, plumageStyle, { rotate: `-${props.spread * 2}deg`, width: "40%" })} />
                 </div>
             );
             break;
         }
         // tall head
         case 2: {
-            const height = 50;
+            const height = props.height + 20
 
             const plumageStyle: React.CSSProperties = {
                 zIndex: -1,
@@ -65,7 +71,7 @@ const HeadPlumage: React.FC<HeadPlumageProps> = ({ style, color, spread, flipped
                 bottom: "-20px",
                 width: "100%",
                 height: `${height}px`,
-                backgroundColor: color,
+                backgroundColor: props.color,
                 borderRadius: "100% 600% 0% 0%",
             };
 
@@ -76,7 +82,7 @@ const HeadPlumage: React.FC<HeadPlumageProps> = ({ style, color, spread, flipped
             plumage = <> </>;
     }
 
-    return <div style={{ transform: flipped ? "scaleX(-1)" : "", position: "relative" }}>{plumage}</div>;
+    return <div style={{ transform: props.flipped ? "scaleX(-1)" : "", position: "relative" }}>{plumage}</div>;
 };
 
 export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
