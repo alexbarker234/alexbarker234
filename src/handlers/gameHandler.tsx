@@ -29,14 +29,20 @@ const birds: Bird[] = [
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     try {
-        const debug = req.query.debug;
+        const debug = (typeof req.query.debug == 'string' ? req.query.debug.toLowerCase() === "true" : false) 
+        const win = debug && (typeof req.query.win == 'string' ? req.query.win.toLowerCase() === "true" : false) 
+
+        console.log( req.query.debug[0])
+        console.log({debug, win})
+
         const game = debug ? { clicks: 2, dateID: Math.random() } : await getCurrentGame();
+
 
         const progress = Math.min((game.clicks / 20) * 100, 100);
         const rand = new SeededRandom(game.dateID)
 
         //console.log(`${game.clicks} / 20 clciks`);
-        let hasWon = false;
+        let hasWon = win;
         if (progress >= 100) hasWon = true;
 
         const bird = birds[Math.floor(rand.rand() * birds.length)];
