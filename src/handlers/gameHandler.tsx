@@ -32,7 +32,6 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         const debug = (typeof req.query.debug == 'string' ? req.query.debug.toLowerCase() === "true" : false) 
         const win = debug && (typeof req.query.win == 'string' ? req.query.win.toLowerCase() === "true" : false) 
 
-        console.log( req.query.debug[0])
         console.log({debug, win})
 
         const game = debug ? { clicks: 2, dateID: Math.random() } : await getCurrentGame();
