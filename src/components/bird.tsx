@@ -184,7 +184,7 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
         position: "absolute",
         bottom: `${bird.torsoHeight - bird.headWidth * 0.75}px`,
         transformOrigin: "bottom center",
-        animation: "head-rotate 0.7s infinite ease-in-out"
+        animation: bird.isFree ? "" : "head-rotate 0.7s infinite ease-in-out"
     };
 
     const eyeStyle: React.CSSProperties = {
@@ -250,7 +250,7 @@ export const BirdSVG: React.FC<BirdProps> = (bird: BirdProps) => {
         <div className="bird" style={birdStyle} id={bird.isFree ? "free-bird" : "locked-bird"}>
             <div className="torso" style={birdTorsoStyle}>
                 <div className="head" style={headStyle}>
-                    <Sweat/>
+                    {!bird.isFree && <Sweat/>}
                     <HeadPlumage {...bird.headPlumage} headHeight={bird.headHeight} />
                     <div className="head-fill" style={{ width: "100%", height: "100%", borderRadius: "inherit", backgroundColor: "inherit" }}></div>
                     <div className="beak" style={beakStyle} />
