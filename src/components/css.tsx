@@ -99,7 +99,7 @@ export const BUTTON_CSS = `
         opacity: 1
     }
 }
-`
+`;
 
 export const CONVERT_SVG_CSS = `
     * {

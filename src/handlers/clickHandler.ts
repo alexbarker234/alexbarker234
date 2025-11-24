@@ -7,12 +7,12 @@ import { addClick } from "../helpers/dbHelper";
  * @param {VercelResponse} res Response to request.
  */
 export default async function (req: VercelRequest, res: VercelResponse) {
-    try {
-        await addClick();
+  try {
+    await addClick();
 
-        return res.redirect("https://github.com/alexbarker234");
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send(ERROR_MESSAGE_500);
-    }
+    return res.redirect("https://github.com/alexbarker234");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(ERROR_MESSAGE_500);
+  }
 }

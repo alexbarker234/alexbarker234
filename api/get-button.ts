@@ -6,5 +6,5 @@ import handler from "../src/handlers/buttonHandler";
  * @param {VercelResponse} res Response to request.
  */
 export default async function (req: VercelRequest, res: VercelResponse) {
-    return handler(req, res);
+  return handler(req, res);
 }

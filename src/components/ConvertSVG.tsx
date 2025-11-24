@@ -1,5 +1,5 @@
-import React from 'react';
-import { CONVERT_SVG_CSS } from './css';
+import React from "react";
+import { CONVERT_SVG_CSS } from "./css";
 
 interface IConvertSVGParameters {
   children: React.ReactNode;
@@ -19,22 +19,19 @@ interface IConvertSVGParameters {
 const ConvertSVG: React.FC<IConvertSVGParameters> = ({
   children,
   height,
-  width,
+  width
 }: IConvertSVGParameters) => (
   <svg
     height={height}
     width={width}
     viewBox={`0 0 ${width} ${height}`}
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <foreignObject
-      width={width}
-      height={height}>
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <foreignObject width={width} height={height}>
       <div {...{ xmlns: "http://www.w3.org/1999/xhtml" }}>
-        <style>
-          { CONVERT_SVG_CSS }
-        </style>
-        { children }
+        <style>{CONVERT_SVG_CSS}</style>
+        {children}
       </div>
     </foreignObject>
   </svg>
