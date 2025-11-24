@@ -1,5 +1,5 @@
 import React from "react";
-import { BIRD_CSS } from "./css";
+import { BIRD_CSS } from "../lib/cssLoader";
 export interface BirdProps {
   isFree: boolean;
 
