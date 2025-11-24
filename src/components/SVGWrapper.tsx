@@ -1,5 +1,5 @@
 import React from "react";
-import { CONVERT_SVG_CSS } from "./css";
+import { CONVERT_SVG_CSS } from "../lib/cssLoader";
 
 interface ISVGWrapperProps {
   children: React.ReactNode;

@@ -1,8 +1,8 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { BirdProps } from "../components/bird";
-import { GameSVG } from "../components/game";
+import { BirdProps } from "../components/Bird";
+import { GameSVG } from "../components/Game";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getCurrentGame } from "../helpers/dbHelper";
 import { SeededRandom } from "../lib/random";

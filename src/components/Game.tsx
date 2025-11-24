@@ -1,7 +1,7 @@
 import React from "react";
+import { GAME_CSS } from "../lib/cssLoader";
+import { BirdProps, BirdSVG } from "./Bird";
 import SVGWrapper from "./SVGWrapper";
-import { BirdProps, BirdSVG } from "./bird";
-import { GAME_CSS } from "./css";
 
 interface GameProp {
   progress: number;

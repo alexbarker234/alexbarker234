@@ -1,6 +1,6 @@
 import React from "react";
+import { BUTTON_CSS } from "../lib/cssLoader";
 import SVGWrapper from "./SVGWrapper";
-import { BUTTON_CSS } from "./css";
 
 export const ButtonSVG: React.FC = () => {
   return (
