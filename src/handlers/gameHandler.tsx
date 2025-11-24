@@ -24,13 +24,28 @@ const birds: Bird[] = [
   new Bird("#e35336", "#88173e"), // orange and maroon
   new Bird("#afd74f", "#62b897"), // lime and teal
   new Bird("#c72ad7", "#6e2dd6"), // pink and purple
-  new Bird("#fcc531", "#7e50c3") // yellow and purple
+  new Bird("#fcc531", "#7e50c3"), // yellow and purple
+  new Bird("#f7b267", "#324376"), // gold and indigo
+  new Bird("#38a3a5", "#57cc99"), // blue-green and mint
+  new Bird("#ff686b", "#6a4c93"), // coral and deep purple
+  new Bird("#49beb7", "#eabfcb"), // aqua and pastel pink
+  new Bird("#f4e285", "#6a994e"), // pale yellow and olive
+  new Bird("#52489c", "#6487e3"), // purple and blue
+  new Bird("#ffb997", "#f67e7d"), // peach and salmon
+  new Bird("#fe5d9f", "#00f2f2"), // hot pink and turquoise
+  new Bird("#53dd6c", "#bee9e8"), // emerald and baby blue
+  new Bird("#8ef6e4", "#f0a500") // teal and goldenrod
 ];
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   try {
     const debug =
       typeof req.query.debug == "string" ? req.query.debug.toLowerCase() === "true" : false;
+
+    const birdIndexParam = req.query.birdIndex
+      ? parseInt(req.query.birdIndex as string)
+      : undefined;
+
     const win =
       debug && (typeof req.query.win == "string" ? req.query.win.toLowerCase() === "true" : false);
 
@@ -44,8 +59,9 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     //console.log(`${game.clicks} / 20 clciks`);
     let hasWon = win;
     if (progress >= 100) hasWon = true;
+    const birdIndex = birdIndexParam ?? Math.floor(rand.rand() * birds.length);
 
-    const bird = birds[Math.floor(rand.rand() * birds.length)];
+    const bird = birds[birdIndex];
 
     const birdData: BirdProps = {
       isFree: hasWon,

@@ -4,6 +4,7 @@ const uri = process.env.MONGODB_URI as string; // your mongodb connection string
 const options = {};
 
 declare global {
+  // eslint-disable-next-line no-var
   var _mongoClientPromise: Promise<MongoClient>;
 }
 
