@@ -49,14 +49,11 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     const win =
       debug && (typeof req.query.win == "string" ? req.query.win.toLowerCase() === "true" : false);
 
-    console.log({ debug, win });
-
     const game = debug ? { clicks: 2, dateID: Math.random() } : await getCurrentGame();
 
     const progress = Math.min((game.clicks / 20) * 100, 100);
     const rand = new SeededRandom(game.dateID);
 
-    //console.log(`${game.clicks} / 20 clciks`);
     let hasWon = win;
     if (progress >= 100) hasWon = true;
     const birdIndex = birdIndexParam ?? Math.floor(rand.rand() * birds.length);
