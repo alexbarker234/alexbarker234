@@ -1,0 +1,29 @@
+#button-container {
+    width: 160px;
+    height: 48px;
+    border-radius: 160px;
+    background-color: #3a6df0;
+    position: relative;
+    margin: auto;
+    transition: 0.2s;
+    animation: fade-in 1s forwards ease-out
+}
+
+#button-text {
+    margin: auto;    
+    width: fit-content;
+    line-height: 48px;
+    font-family: sans-serif;
+    color:white;
+    font-weight: 800;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
+}
+

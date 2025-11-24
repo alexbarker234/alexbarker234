@@ -1,3 +1,4 @@
+import { waitUntil } from "@vercel/functions";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { ERROR_MESSAGE_500 } from "../config";
 import { addClick } from "../helpers/dbHelper";
@@ -8,7 +9,8 @@ import { addClick } from "../helpers/dbHelper";
  */
 export default async function (req: VercelRequest, res: VercelResponse) {
   try {
-    await addClick();
+    // Add click in background, redirect immediately
+    waitUntil(addClick());
 
     return res.redirect("https://github.com/alexbarker234");
   } catch (error) {
