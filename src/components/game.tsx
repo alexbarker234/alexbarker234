@@ -1,6 +1,6 @@
 import React from "react";
 import ConvertSVG from "./ConvertSVG";
-import { BirdSVG, BirdProps } from "./bird";
+import { BirdProps, BirdSVG } from "./bird";
 
 interface GameProp {
   progress: number;

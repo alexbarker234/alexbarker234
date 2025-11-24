@@ -1,9 +1,9 @@
-import clientPromise from "../lib/mongodb";
+import { Collection, Filter } from "mongodb";
 import "../extensions/date.extensions";
+import clientPromise from "../lib/mongodb";
+import { getDateID } from "../lib/utilities";
 import Game from "../models/game";
 import Stats from "../models/stats";
-import { Collection, Filter, Document } from "mongodb";
-import { getDateID } from "../lib/utilities";
 
 export const loadGameCollection = async () => {
   try {

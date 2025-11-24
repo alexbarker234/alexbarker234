@@ -1,9 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { renderToString } from "react-dom/server";
-import { ButtonSVG } from "../components/button";
+import fetch from "node-fetch";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getStats } from "../helpers/dbHelper";
-import fetch from "node-fetch";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   try {

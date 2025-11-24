@@ -1,11 +1,11 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import React from "react";
 import { renderToString } from "react-dom/server";
+import { BirdProps } from "../components/bird";
 import { GameSVG } from "../components/game";
 import { ERROR_MESSAGE_500 } from "../config";
 import { getCurrentGame } from "../helpers/dbHelper";
-import { BirdProps } from "../components/bird";
 import { SeededRandom } from "../lib/random";
-import React from "react";
 
 class Bird {
   bodyColor: string;
