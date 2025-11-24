@@ -1,10 +1,10 @@
 import React from "react";
-import SVGContainer from "./SVGWrapper";
+import SVGWrapper from "./SVGWrapper";
 import { BUTTON_CSS } from "./css";
 
 export const ButtonSVG: React.FC = () => {
   return (
-    <SVGContainer width="160" height="48">
+    <SVGWrapper width="160" height="48">
       <div id="content">
         <div id="button-container">
           <div id="button-text">Save the bird!</div>
@@ -12,6 +12,6 @@ export const ButtonSVG: React.FC = () => {
       </div>
 
       <style>{BUTTON_CSS}</style>
-    </SVGContainer>
+    </SVGWrapper>
   );
 };

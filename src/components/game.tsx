@@ -1,5 +1,5 @@
 import React from "react";
-import SVGContainer from "./SVGWrapper";
+import SVGWrapper from "./SVGWrapper";
 import { BirdProps, BirdSVG } from "./bird";
 
 interface GameProp {
@@ -116,9 +116,9 @@ export const GameSVG: React.FC<GameProp> = ({ progress, birdProp, victory, isSVG
   );
 
   return isSVG || isSVG == undefined ? (
-    <SVGContainer width="300" height="300">
+    <SVGWrapper width="300" height="300">
       {jsx}
-    </SVGContainer>
+    </SVGWrapper>
   ) : (
     jsx
   );
