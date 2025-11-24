@@ -7,7 +7,8 @@
     "start": "vercel dev",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "Alex Barker",
